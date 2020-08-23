@@ -50,7 +50,7 @@ class Sensor(models.Model):
     date = models.DateField(auto_now_add=datetime.now)
 
 
-# class UserDevice(models.Model):
-#     user_id = models.ForeignKey(User, on_delete=models.SET_DEFAULT)
-#     device_id = models.ForeignKey(Device, on_delete=models.SET_DEFAULT)
+class UserDevice(models.Model):
+    user_id = models.ForeignKey('User', on_delete=models.CASCADE)
+    device_id = models.ForeignKey('Device', on_delete=models.CASCADE)
 
