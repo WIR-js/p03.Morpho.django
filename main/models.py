@@ -2,28 +2,55 @@ from django.db import models
 from datetime import datetime
 
 
-class Home(models.Model):
-    home_id = models.IntegerField(db_column='home_id' , primary_key=True)
-    home_name = models.CharField(db_column='home_name' , max_length=200)
-    home_location = models.CharField(db_column='location' , max_length=500)
-    is_active = models.BooleanField(db_column='is_active', default= True)
+class User(models.Model):
+    username = models.CharField(max_length=255,unique=True)
+    fistname = models.CharField(max_length=255)
+    lastname = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255, unique=True)
+    created_at = models.DateField(auto_now_add=datetime.now)
+    activation = models.BooleanField(default=False)
+    def __str__(self):
+        return f'username: {self.username}\n' \
+               f'firstname: {self.fistname}\n' \
+               f'lastname: {self.lastname}\n' \
+               f'email: {self.email}\n' \
+               f'created at: {self.created_at}\n' \
+               f'activation; {self.activation}'
 
-class Resident(models.Model):
-    
-    ADMIN= 'Admin'
-    MEMBER = 'Member'
-    GUST = 'Gust'
-    
-    RESIDENT_ROLE = (
-        (ADMIN, 'Admin'),
-        (MEMBER, 'Member'),
-        (GUST, 'Gust'))
+class Device(models.Model):
+    SENSOR = 'S'
+    CONTROLLER = 'C'
+    ACTUATOR = 'AC'
+    APPLIANCE = 'AP'
 
-    residnet_id = models.AutoField(db_column='resident_id',primary_key=True , editable=False )
-    home_id = models.ForeignKey(Home, on_delete=models.CASCADE)
-    resident_name = models.CharField(db_column='resident_name' , max_length=100)
-    resident_role = models.CharField(db_column="resident_role", choices=RESIDENT_ROLE ,max_length=10)
-    resident_registered = models.DateTimeField(db_column='resident_registered', default=datetime.now)
+    Types = [
+        (SENSOR, 'sensor'),
+        (CONTROLLER,'controller'),
+        (ACTUATOR, 'actuator'),
+        (APPLIANCE, 'appliance')
+    ]
+    name = models.CharField(max_length=255)
+    model = models.CharField(max_length=255)
+    position = models.IntegerField()
+    status = models.CharField(max_length=255)
+    type = models.CharField(max_length=3, choices=Types)
+    # def is_upperclass(self):
+    #     return self.Types in {
+    #         self.Types.SENSOR,
+    #         self.Types.CONTROLLER,
+    #         self.Types.ACTUATOR,
+    #         self.Types.APPLIANCE,
+    #     }
 
-    def str(self):
-        return self.resident_name
+
+class Sensor(models.Model):
+    data_type = models.CharField(max_length=255)
+    value = models.CharField(max_length=50)
+    unit = models.CharField(max_length=25)
+    date = models.DateField(auto_now_add=datetime.now)
+
+
+# class UserDevice(models.Model):
+#     user_id = models.ForeignKey(User, on_delete=models.SET_DEFAULT)
+#     device_id = models.ForeignKey(Device, on_delete=models.SET_DEFAULT)
+

@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Home, Resident
+from .models import User, Device, Sensor
 
-admin.site.register(Home)
-admin.site.register(Resident)
+admin.site.register(User)
+admin.site.register(Device)
+admin.site.register(Sensor)
