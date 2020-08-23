@@ -34,13 +34,13 @@ class Device(models.Model):
     position = models.IntegerField()
     status = models.CharField(max_length=255)
     type = models.CharField(max_length=3, choices=Types)
-    # def is_upperclass(self):
-    #     return self.Types in {
-    #         self.Types.SENSOR,
-    #         self.Types.CONTROLLER,
-    #         self.Types.ACTUATOR,
-    #         self.Types.APPLIANCE,
-    #     }
+    def is_upperclass(self):
+        return self.Types in {
+            self.Types.SENSOR,
+            self.Types.CONTROLLER,
+            self.Types.ACTUATOR,
+            self.Types.APPLIANCE,
+        }
 
 
 class Sensor(models.Model):
